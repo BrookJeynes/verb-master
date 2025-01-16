@@ -23,7 +23,7 @@ function ProgressBar({ progress }: { progress: number }) {
     };
 
     return (
-        <div className="h-6 w-full rounded-md bg-lightgray shadow-sm">
+        <div className="h-6 w-full rounded-md border border-platinum bg-lightgray shadow-sm">
             <div className="h-full rounded-md bg-blue" style={fillerStyles} />
         </div>
     );
@@ -319,7 +319,7 @@ function Question({
                         id="user_input"
                         type="text"
                         ref={user_input_ref}
-                        className="w-full rounded-md border border-solid border-platinum px-2 py-1 text-center shadow-sm  md:w-5/6"
+                        className="w-full rounded-md border-2 border-solid border-platinum px-2 py-1 text-center shadow  md:w-5/6"
                     />
                 </div>
             </div>
