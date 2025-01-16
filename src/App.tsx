@@ -51,6 +51,7 @@ function Home({
     function start(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
+        // @ts-ignore
         const question_count = Number(e.target.question_count.value);
         setQuestionCount(question_count);
 
@@ -69,6 +70,7 @@ function Home({
     }
 
     function reset() {
+        // @ts-ignore
         upload_file_ref.current.value = null;
         setError(null);
         setConfig({
@@ -265,20 +267,23 @@ function Question({
 
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const user_input = e.target.user_input.value;
+        // @ts-ignore
+        const user_input = e.target.user_input.value as string;
 
         if (question_state === QuestionState.undecided) {
-            if (user_input === words[current_word_idx].conjugation) {
+            if (user_input.trim() === words[current_word_idx].conjugation) {
                 setQuestionState(QuestionState.correct);
                 incrementCorrectQuestions();
             } else {
                 const input_element = document.getElementById("user_input");
+                // @ts-ignore
                 input_element.classList.add("animate-shake");
+                // @ts-ignore
                 setTimeout(() => input_element.classList.remove("animate-shake"), 400);
-                // setQuestionState(QuestionState.incorrect);
             }
         } else {
             setCurrentWordIdx(current_word_idx + 1);
+            // @ts-ignore
             user_input_ref.current.value = "";
             setQuestionState(QuestionState.undecided);
         }
