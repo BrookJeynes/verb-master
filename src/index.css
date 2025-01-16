@@ -8,13 +8,8 @@
   src: url("fonts/NotoSans/NotoSans-VariableFont_wdth,wght.ttf") format('truetype');
 }
 
-:root {
-  line-height: 1.5;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html, #root, body {
+  height: 100%;
 }
 
 body {

@@ -3,7 +3,7 @@ import { getRandomConjugations, isValidVerb } from "./conjugator";
 import { Config, default_config } from "./config";
 import { Tense, WordConjugation } from "./types";
 import { parseKimchiCsv } from "./csv";
-import { FaRectangleXmark } from "react-icons/fa6";
+import { FaCircleCheck, FaCircleXmark, FaRectangleXmark, FaXmark } from "react-icons/fa6";
 
 enum State {
     home,
@@ -15,6 +15,18 @@ enum QuestionState {
     correct,
     incorrect,
     undecided,
+};
+
+function ProgressBar({ progress }: { progress: number }) {
+    const fillerStyles = {
+        width: `${progress}%`,
+    };
+
+    return (
+        <div className="h-6 w-full rounded-md bg-lightgray shadow-sm">
+            <div className="h-full rounded-md bg-blue" style={fillerStyles} />
+        </div>
+    );
 };
 
 function Home({
@@ -67,7 +79,7 @@ function Home({
     }
 
     return (
-        <div className="flex w-full flex-col items-center ">
+        <div className="flex w-full flex-col items-center">
             <form
                 className="flex w-full flex-col items-center px-10 py-4 text-black xl:w-4/6 2xl:w-2/3"
                 onSubmit={start}
@@ -89,15 +101,15 @@ function Home({
                 <div className="mt-4 flex w-full items-center justify-center gap-6">
                     <input
                         type="submit"
-                        value="Start"
-                        className="mt-4 w-52 rounded-md border border-platinum bg-green px-4 py-2 text-white hover:cursor-pointer hover:bg-greenhover"
+                        value="START"
+                        className="mt-4 h-12 w-56 rounded-md border border-platinum bg-green px-4 py-2 font-bold text-white hover:cursor-pointer hover:bg-greenhover"
                     />
                     <button
                         type="button"
                         onClick={reset}
-                        className="mt-4 w-52 rounded-md border border-platinum px-4 py-2 hover:bg-whitehover"
+                        className="mt-4 h-12 w-56 rounded-md border border-platinum px-4 py-2 font-bold hover:bg-whitehover"
                     >
-                        Reset
+                        RESET
                     </button>
                 </div>
 
@@ -260,7 +272,10 @@ function Question({
                 setQuestionState(QuestionState.correct);
                 incrementCorrectQuestions();
             } else {
-                setQuestionState(QuestionState.incorrect);
+                const input_element = document.getElementById("user_input");
+                input_element.classList.add("animate-shake");
+                setTimeout(() => input_element.classList.remove("animate-shake"), 400);
+                // setQuestionState(QuestionState.incorrect);
             }
         } else {
             setCurrentWordIdx(current_word_idx + 1);
@@ -274,28 +289,107 @@ function Question({
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            <button onClick={onQuit}>Quit</button>
-            {current_word_idx + 1} / {question_count}
-
-            <p>Make the following <span>{words[current_word_idx].tense}</span></p>
-            <p>{words[current_word_idx].word}</p>
-
-            <input id="user_input" type="text" ref={user_input_ref} />
-
-            <input type="submit" value={question_state === QuestionState.undecided ? "CHECK" : "CONTINUE"} />
-            <button type="button" onClick={onSkip} disabled={question_state !== QuestionState.undecided}>SKIP</button>
-
-            {question_state === QuestionState.incorrect && (
-                <div>
-                    <p>{words[current_word_idx].conjugation}</p>
-                    <div>
-                        {words[current_word_idx].reasons.map((reason, i) => (
-                            <p key={reason}>{i + 1}. {reason}</p>
-                        ))}
-                    </div>
+        <form
+            className="flex h-full flex-col items-center justify-between text-black"
+            onSubmit={onSubmit}
+        >
+            <div className="flex size-full flex-col items-center px-10 py-6 md:w-5/6 2xl:w-1/2">
+                <div className="flex w-full items-center gap-4">
+                    <FaXmark
+                        onClick={onQuit}
+                        size={28}
+                        className="text-darkgray hover:cursor-pointer hover:text-black"
+                    />
+                    <ProgressBar progress={(current_word_idx / question_count) * 100} />
                 </div>
-            )}
+
+                <div className="flex h-4/6 w-full flex-col items-center justify-center gap-4 text-center">
+                    <p>Make the following <span className="text-blue">{words[current_word_idx].tense}</span></p>
+                    <p className="mb-4 text-4xl font-bold">{words[current_word_idx].word}</p>
+
+                    <input
+                        id="user_input"
+                        type="text"
+                        ref={user_input_ref}
+                        className="w-full rounded-md border border-solid border-platinum px-2 py-1 text-center shadow-sm  md:w-5/6"
+                    />
+                </div>
+            </div>
+
+            <div
+                className={"flex w-full items-center justify-center border-t-2 border-t-platinum px-10 py-6 " +
+                    `${question_state === QuestionState.undecided ? "bg-white" : question_state === QuestionState.correct ? "bg-lightgreen" : "bg-lightred"}`
+                }
+            >
+                <div className="flex w-full flex-col items-center justify-between gap-1 md:w-5/6 md:flex-row 2xl:w-1/2">
+                    {question_state === QuestionState.undecided ? (
+                        <button
+                            type="button"
+                            onClick={onSkip}
+                            disabled={question_state !== QuestionState.undecided}
+                            className="h-12 w-full rounded-md border border-platinum bg-white px-4 py-2 font-bold shadow-sm hover:cursor-pointer hover:bg-lightgray md:w-56"
+                        >
+                            SKIP
+                        </button>
+                    ) : question_state === QuestionState.correct ? (
+                        <div className="flex flex-col items-center self-start text-darkgreen md:flex-row">
+                            <div className="flex flex-col self-start">
+                                <div className="mb-4 flex items-center gap-4 md:mb-2">
+                                    <FaCircleCheck size={54} />
+                                    <div>
+                                        <div className="flex items-center gap-2 md:mb-2">
+                                            <p>Correct:</p>
+                                            <p className="hidden text-2xl font-bold md:block">{words[current_word_idx].conjugation}</p>
+                                        </div>
+                                        <p className="block text-2xl font-bold md:mb-2 md:hidden">{words[current_word_idx].conjugation}</p>
+                                        <div className="hidden text-base md:block">
+                                            {words[current_word_idx].reasons.map((reason, i) => (
+                                                <p key={reason}>{i + 1}. {reason}</p>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="block text-base md:hidden">
+                                {words[current_word_idx].reasons.map((reason, i) => (
+                                    <p key={reason}>{i + 1}. {reason}</p>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center self-start text-red md:flex-row">
+                            <div className="flex flex-col self-start">
+                                <div className="mb-4 flex items-center gap-4 md:mb-2">
+                                    <FaCircleXmark size={54} />
+                                    <div>
+                                        <div className="flex items-center gap-2 md:mb-2 ">
+                                            <p>Correct solution:</p>
+                                            <p className="hidden text-2xl font-bold md:block">{words[current_word_idx].conjugation}</p>
+                                        </div>
+                                        <p className="block text-2xl font-bold md:mb-2 md:hidden">{words[current_word_idx].conjugation}</p>
+                                        <div className="hidden text-base md:block">
+                                            {words[current_word_idx].reasons.map((reason, i) => (
+                                                <p key={reason}>{i + 1}. {reason}</p>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="block text-base md:hidden">
+                                {words[current_word_idx].reasons.map((reason, i) => (
+                                    <p key={reason}>{i + 1}. {reason}</p>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <input
+                        type="submit"
+                        value={question_state === QuestionState.undecided ? "CHECK" : "CONTINUE"}
+                        className={`mt-4 h-12 w-full rounded-md shadow-sm md:mt-0 ${question_state !== QuestionState.incorrect ? "bg-green hover:bg-greenhover" : "bg-red hover:bg-redhover"} px-4 py-2 font-bold text-white hover:cursor-pointer md:w-56`}
+                    />
+                </div>
+            </div>
         </form>
     );
 }
