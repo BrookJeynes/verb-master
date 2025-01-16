@@ -6,7 +6,7 @@ export default {
     ],
     theme: {
         colors: {
-            "blue": "#1CB0F6",
+            "blue": "#0BABF5",
             "red": "#FF2A2E",
             "lightred": "#FFF3F4",
             "redhover": "#F80004",

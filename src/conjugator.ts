@@ -38,6 +38,7 @@ export function getRandomConjugations(count: number, tenses: Tense[], dbs: Db[])
 
 export function isValidVerb(word: string): boolean {
     if (word.endsWith("하다")) return true;
+    if (word.endsWith("다니다")) return true;
     if (word.endsWith("니다")) return false;
     if (word.endsWith("이다")) return true;
     if (word.endsWith("다")) return true;

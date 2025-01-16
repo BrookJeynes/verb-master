@@ -188,8 +188,8 @@ function Home({
                             );
                         })}
 
-                        <div className="mt-4 flex w-min flex-col gap-2">
-                            <label className="font-bold" htmlFor="kimchiCsvUpload">Upload Kimchi exported CSV:</label>
+                        <div className="mt-4 flex flex-col gap-2">
+                            <label className="font-bold" htmlFor="kimchiCsvUpload">Upload <a className="underline hover:text-blue" target="_blank" href="https://kimchi-reader.app/stats/words/all">KimchiReader exported</a> CSV:</label>
                             <input
                                 ref={upload_file_ref}
                                 type="file"
@@ -304,7 +304,7 @@ function Question({
                 </div>
 
                 <div className="flex h-4/6 w-full flex-col items-center justify-center gap-4 text-center">
-                    <p>Make the following <span className="text-blue">{words[current_word_idx].tense}</span></p>
+                    <p>Make the following <span className="font-bold text-blue">{words[current_word_idx].tense}</span></p>
                     <p className="mb-4 text-4xl font-bold">{words[current_word_idx].word}</p>
 
                     <input

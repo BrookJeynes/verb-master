@@ -47,7 +47,7 @@ export const default_config: Config = {
     datasets: {
         kimchiFrequency: {
             enabled: true,
-            name: "Kimchi frequency",
+            name: "Kimchi Reader most frequent words",
             dataset: kimchiFrequency,
             isCustom: false,
         }
