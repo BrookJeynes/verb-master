@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          sebmodules: 'true'
+          submodules: 'true'
 
       - uses: oven-sh/setup-bun@v2
         name: Install bun
