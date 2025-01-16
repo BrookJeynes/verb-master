@@ -2,7 +2,7 @@
 
 ![Korean conjugation drill preview](./assets/preview.png)
 
-A simple [website]() designed to help you practice your Korean conjugations. 
+A simple [website](https://korean-conjugation-drill.vercel.app/) designed to help you practice your Korean conjugations. 
 Practice different formality levels, tenses, and grammar forms. Understand how 
 each conjugation is formed from the dictionary form of a word.
 
