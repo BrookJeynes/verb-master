@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getRandomConjugations, isValidVerb } from "./conjugator";
 import { Config, default_config } from "./config";
 import { Tense, WordConjugation } from "./types";
@@ -451,6 +451,12 @@ function App() {
     function incrementCorrectQuestions() {
         setCorrectQuestionCount(correct_question_count + 1);
     }
+
+    useEffect(() => {
+        if (state === State.home) {
+            setCorrectQuestionCount(0);
+        }
+    }, [state]);
 
     switch (state) {
         case State.home:
