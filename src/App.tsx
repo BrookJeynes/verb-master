@@ -126,19 +126,22 @@ function Home({
                                         id={tense_key}
                                         type="checkbox"
                                         className="mr-2 size-5 cursor-pointer rounded border border-darkgray"
-                                        checked={tense}
+                                        checked={tense.enabled}
                                         onChange={(e) => {
                                             const checked = e.target.checked;
                                             setConfig((prevConfig) => ({
                                                 ...prevConfig,
                                                 tenses: {
                                                     ...prevConfig.tenses,
-                                                    [tense_key]: checked,
+                                                    [tense_key]: {
+                                                        ...tense,
+                                                        enabled: checked,
+                                                    }
                                                 },
                                             }));
                                         }}
                                     />
-                                    <label htmlFor={tense_key}>{tense_key}</label>
+                                    <label htmlFor={tense_key}>{tense_key[0].toUpperCase()+tense_key.substring(1)} ({tense.example})</label>
                                 </div>
                             );
                         })}
