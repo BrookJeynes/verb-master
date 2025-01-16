@@ -5,7 +5,7 @@ export async function parseKimchiCsv(file: File): Promise<string[]> {
     const content = await file.text();
     const rows = content.split("\n");
 
-    if (rows.length > 0) throw new Error("Invalid Kimchi export file.");
+    if (rows.length === 0) throw new Error("Invalid Kimchi export file.");
 
     const headers: KimchiHeader[] = ["word", "kimchiKnownLevel"];
 

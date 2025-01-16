@@ -3,6 +3,7 @@ import { getRandomConjugations, isValidVerb } from "./conjugator";
 import { Config, default_config } from "./config";
 import { Tense, WordConjugation } from "./types";
 import { parseKimchiCsv } from "./csv";
+import { FaRectangleXmark } from "react-icons/fa6";
 
 enum State {
     home,
@@ -33,6 +34,8 @@ function Home({
     config: Config,
     error: string | null,
 }) {
+    const upload_file_ref = useRef(null);
+
     function start(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
@@ -54,6 +57,7 @@ function Home({
     }
 
     function reset() {
+        upload_file_ref.current.value = null;
         setError(null);
         setConfig({
             tenses: default_config.tenses,
@@ -63,124 +67,160 @@ function Home({
     }
 
     return (
-        <form onSubmit={start}>
-            <h1>Korean Conjugation Drill</h1>
-            <label htmlFor="question_count">Number of questions:</label>
-            <input
-                id="question_count"
-                type="number"
-                defaultValue={10}
-                min={1}
-            />
+        <div className="flex w-full flex-col items-center ">
+            <form
+                className="flex w-full flex-col items-center px-10 py-4 text-black xl:w-4/6 2xl:w-2/3"
+                onSubmit={start}
+            >
+                {error && <div className="mb-10 w-2/3 rounded-md bg-redhover px-4 py-2 text-base">
+                    <p className="text-center font-bold text-white">Error: {error}</p>
+                </div>}
 
-            <input type="submit" value="Start" />
-            <button type="button" onClick={reset}>Reset</button>
+                <h1 className="mb-8 text-center text-4xl font-bold">Korean Conjugation Drill</h1>
+                <label htmlFor="question_count">Number of questions:</label>
+                <input
+                    id="question_count"
+                    type="number"
+                    defaultValue={10}
+                    min={1}
+                    className="mt-4 rounded-md border border-platinum px-4 py-2"
+                />
 
-            {error && <p>{error}</p>}
-
-            <div>
-                <div>
-                    <h3>Conjugation Forms</h3>
-                    {Object.keys(config.tenses).map(tense_key => {
-                        const tense = config.tenses[tense_key as Tense];
-                        return (
-                            <div key={tense_key}>
-                                <input
-                                    id={tense_key}
-                                    type="checkbox"
-                                    checked={tense}
-                                    onChange={(e) => {
-                                        const checked = e.target.checked;
-                                        setConfig((prevConfig) => ({
-                                            ...prevConfig,
-                                            tenses: {
-                                                ...prevConfig.tenses,
-                                                [tense_key]: checked,
-                                            },
-                                        }));
-                                    }}
-                                />
-                                <label htmlFor={tense_key}>{tense_key}</label>
-                            </div>
-                        );
-                    })}
+                <div className="mt-4 flex w-full items-center justify-center gap-6">
+                    <input
+                        type="submit"
+                        value="Start"
+                        className="mt-4 w-52 rounded-md border border-platinum bg-green px-4 py-2 text-white hover:cursor-pointer hover:bg-greenhover"
+                    />
+                    <button
+                        type="button"
+                        onClick={reset}
+                        className="mt-4 w-52 rounded-md border border-platinum px-4 py-2 hover:bg-whitehover"
+                    >
+                        Reset
+                    </button>
                 </div>
-                <div>
-                    <h3>Decks</h3>
 
-                    <label htmlFor="kimchiCsvUpload">Upload Kimchi exported CSV</label>
-                    <input type="file" id="kimchiCsvUpload" accept=".csv" onChange={e => {
-                        async function onChange() {
-                            const files = e.target.files;
-                            if (!files) return;
-                            const file = files[0];
+                <div className="mt-12 flex w-full flex-col justify-center gap-24 rounded-md bg-lightgray px-10 py-6  md:flex-row">
+                    <div className="flex flex-col gap-1">
+                        <h3 className="mb-4 text-2xl font-bold">Conjugation Forms</h3>
+                        {Object.keys(config.tenses).map(tense_key => {
+                            const tense = config.tenses[tense_key as Tense];
+                            return (
+                                <div key={tense_key} className="flex items-center">
+                                    <input
+                                        id={tense_key}
+                                        type="checkbox"
+                                        className="mr-2 size-5 cursor-pointer rounded border border-darkgray"
+                                        checked={tense}
+                                        onChange={(e) => {
+                                            const checked = e.target.checked;
+                                            setConfig((prevConfig) => ({
+                                                ...prevConfig,
+                                                tenses: {
+                                                    ...prevConfig.tenses,
+                                                    [tense_key]: checked,
+                                                },
+                                            }));
+                                        }}
+                                    />
+                                    <label htmlFor={tense_key}>{tense_key}</label>
+                                </div>
+                            );
+                        })}
+                    </div>
 
-                            let words: string[] = [];
-                            try {
-                                words = await parseKimchiCsv(file);
-                            } catch (e) {
-                                setError((e as Error).message);
-                                return;
-                            }
+                    <div className="flex flex-col gap-1">
+                        <h3 className="mb-4 text-2xl font-bold">Decks</h3>
+                        {Object.keys(config.datasets).map(dataset_key => {
+                            const dataset = config.datasets[dataset_key];
+                            return (
+                                <div key={dataset_key} className="flex items-center">
+                                    <input
+                                        id={dataset_key}
+                                        type="checkbox"
+                                        className="mr-2 size-5 cursor-pointer rounded border border-darkgray"
+                                        checked={dataset.enabled}
+                                        onChange={(e) => {
+                                            const checked = e.target.checked;
+                                            setConfig((prevConfig) => ({
+                                                ...prevConfig,
+                                                datasets: {
+                                                    ...prevConfig.datasets,
+                                                    [dataset_key]: {
+                                                        ...prevConfig.datasets[dataset_key],
+                                                        enabled: checked,
+                                                    },
+                                                },
+                                            }));
+                                        }}
+                                    />
+                                    <label htmlFor={dataset_key}>{dataset.name}</label>
+                                    {dataset.isCustom && (
+                                        <FaRectangleXmark
+                                            size={24}
+                                            className="ml-2 text-red hover:cursor-pointer hover:text-redhover"
+                                            onClick={() => {
+                                                setConfig((prevConfig) => {
+                                                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                                    const { [dataset_key]: _, ...updatedDatasets } = prevConfig.datasets;
+                                                    return {
+                                                        ...prevConfig,
+                                                        datasets: updatedDatasets,
+                                                    };
+                                                });
+                                            }}
+                                        />
+                                    )}
+                                </div>
+                            );
+                        })}
 
-                            const filtered_words = words.filter(word => isValidVerb(word));
+                        <div className="mt-4 flex w-min flex-col gap-2">
+                            <label className="font-bold" htmlFor="kimchiCsvUpload">Upload Kimchi exported CSV:</label>
+                            <input
+                                ref={upload_file_ref}
+                                type="file"
+                                id="kimchiCsvUpload"
+                                accept=".csv"
+                                className="overflow-hidden text-base"
+                                onChange={e => {
+                                    async function onChange() {
+                                        const files = e.target.files;
+                                        if (!files) return;
+                                        const file = files[0];
 
-                            setConfig((prevConfig) => ({
-                                ...prevConfig,
-                                datasets: {
-                                    ...prevConfig.datasets,
-                                    [file.name]: {
-                                        name: file.name.substring(0, file.name.length - ".csv".length),
-                                        dataset: { words: filtered_words },
-                                        isCustom: true,
-                                        enabled: true,
-                                    },
-                                },
-                            }));
-                        }
+                                        let words: string[] = [];
+                                        try {
+                                            words = await parseKimchiCsv(file);
+                                        } catch (e) {
+                                            setError((e as Error).message);
+                                            return;
+                                        }
 
-                        onChange();
-                    }} />
+                                        const filtered_words = words.filter(word => isValidVerb(word));
 
-                    {Object.keys(config.datasets).map(dataset_key => {
-                        const dataset = config.datasets[dataset_key];
-                        return (
-                            <div key={dataset_key}>
-                                <input
-                                    id={dataset_key}
-                                    type="checkbox"
-                                    checked={dataset.enabled}
-                                    onChange={(e) => {
-                                        const checked = e.target.checked;
                                         setConfig((prevConfig) => ({
                                             ...prevConfig,
                                             datasets: {
                                                 ...prevConfig.datasets,
-                                                [dataset_key]: {
-                                                    ...prevConfig.datasets[dataset_key],
-                                                    enabled: checked,
+                                                [file.name]: {
+                                                    name: file.name.substring(0, file.name.length - ".csv".length),
+                                                    dataset: { words: filtered_words },
+                                                    isCustom: true,
+                                                    enabled: true,
                                                 },
                                             },
                                         }));
-                                    }}
-                                />
-                                <label htmlFor={dataset_key}>{dataset.name}</label>
-                                {dataset.isCustom && <button onClick={() => {
-                                    setConfig((prevConfig) => {
-                                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                                        const { [dataset_key]: _, ...updatedDatasets } = prevConfig.datasets;
-                                        return {
-                                            ...prevConfig,
-                                            datasets: updatedDatasets,
-                                        };
-                                    });
-                                }}>Remove</button>}
-                            </div>
-                        );
-                    })}
+                                    }
+
+                                    onChange();
+                                }} />
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </form >
+            </form >
+        </div>
     );
 }
 

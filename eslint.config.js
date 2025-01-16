@@ -1,8 +1,8 @@
 import js from '@eslint/js'
 import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
+import tailwind from "eslint-plugin-tailwindcss";
 
 export default tseslint.config(
     { ignores: ['dist', 'external'] },
@@ -14,11 +14,9 @@ export default tseslint.config(
             globals: globals.browser,
         },
         plugins: {
-            'react-hooks': reactHooks,
             'react-refresh': reactRefresh,
         },
         rules: {
-            ...reactHooks.configs.recommended.rules,
             "indent": ["error", 4, { "SwitchCase": 1 }],
             "semi": ["error", "always"],
             "quotes": [2, "double"],
@@ -28,4 +26,5 @@ export default tseslint.config(
             ],
         },
     },
+    ...tailwind.configs["flat/recommended"],
 )
