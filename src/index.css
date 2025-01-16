@@ -5,7 +5,7 @@
 @font-face {
   font-family: 'noto_sans';
   font-display: swap;
-  src: url("fonts/NotoSans/NotoSans-VariableFont_wdth,wght.ttf") format('truetype');
+  src: url("assets/fonts/NotoSans/NotoSans-VariableFont_wdth,wght.ttf") format('truetype');
 }
 
 html, #root, body {
