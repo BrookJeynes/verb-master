@@ -1,0 +1,3 @@
+[submodule "external/korean_conjugation"]
+	path = external/korean_conjugation
+	url = git@github.com:brookjeynes/korean_conjugation

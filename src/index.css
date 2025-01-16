@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'noto_sans';
+  font-display: swap;
+  src: url("fonts/NotoSans/NotoSans-VariableFont_wdth,wght.ttf") format('truetype');
+}
+
+:root {
+  line-height: 1.5;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: noto_sans;
+  margin: 0;
+  min-height: 100vh;
+}
