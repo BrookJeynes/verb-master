@@ -85,7 +85,7 @@ function Home({
                 onSubmit={start}
             >
                 {error && <div className="mb-10 w-2/3 rounded-md bg-redhover px-4 py-2 text-base">
-                    <p className="text-center font-bold text-white">Error: {error}</p>
+                    <p className="text-center font-bold text-white shadow-sm">Error: {error}</p>
                 </div>}
 
                 <h1 className="mb-8 text-center text-4xl font-bold">Korean Conjugation Drill</h1>
@@ -102,12 +102,12 @@ function Home({
                     <input
                         type="submit"
                         value="START"
-                        className="mt-4 h-12 w-56 rounded-md border border-platinum bg-green px-4 py-2 font-bold text-white hover:cursor-pointer hover:bg-greenhover"
+                        className="mt-4 h-12 w-56 rounded-md bg-green px-4 py-2 font-bold text-white shadow-sm hover:cursor-pointer hover:bg-greenhover"
                     />
                     <button
                         type="button"
                         onClick={reset}
-                        className="mt-4 h-12 w-56 rounded-md border border-platinum px-4 py-2 font-bold hover:bg-whitehover"
+                        className="mt-4 h-12 w-56 rounded-md border border-platinum px-4 py-2 font-bold shadow-sm hover:bg-whitehover"
                     >
                         RESET
                     </button>
@@ -411,9 +411,15 @@ function Result({
     }
 
     return (
-        <div>
-            <p>{correct_question_count} / {question_count}</p>
-            <button onClick={onBack}>Back to home</button>
+        <div className="flex flex-col items-center gap-8 px-10 py-6">
+            <h1 className="text-center text-4xl font-bold">Results</h1>
+            <p className="text-2xl">{correct_question_count} / {question_count}</p>
+            <button
+                onClick={onBack}
+                className="mt-4 h-12 w-56 rounded-md border border-platinum px-4 py-2 font-bold shadow-sm hover:bg-whitehover"
+            >
+                Back to home
+            </button>
         </div>
     );
 }
