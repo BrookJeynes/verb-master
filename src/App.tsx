@@ -274,7 +274,15 @@ function Question({
         const user_input = e.target.user_input.value as string;
 
         if (question_state === QuestionState.undecided) {
-            if (user_input.trim() === words[current_word_idx].conjugation) {
+            let sanitised_user_input = user_input.trim();
+            const word = words[current_word_idx].conjugation;
+
+            // Allow the user to skip the question mark
+            if (!sanitised_user_input.endsWith("?") && word.endsWith("?")) {
+                sanitised_user_input = sanitised_user_input + "?";
+            }
+
+            if (sanitised_user_input === word) {
                 setQuestionState(QuestionState.correct);
                 incrementCorrectQuestions();
             } else {
