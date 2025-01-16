@@ -83,7 +83,7 @@ function Home({
     return (
         <div className="flex w-full flex-col items-center">
             <form
-                className="flex w-full flex-col items-center px-10 py-4 text-black xl:w-4/6 2xl:w-2/3"
+                className="flex w-full flex-col items-center px-5 py-4 text-black xl:w-4/6 2xl:w-2/3"
                 onSubmit={start}
             >
                 {error && <div className="mb-10 w-2/3 rounded-md bg-redhover px-4 py-2 text-base">
@@ -115,7 +115,7 @@ function Home({
                     </button>
                 </div>
 
-                <div className="mt-12 flex w-full flex-col justify-center gap-24 rounded-md bg-lightgray px-10 py-6  md:flex-row">
+                <div className="mt-12 flex w-full flex-col justify-center gap-24 rounded-md bg-lightgray px-5 py-6  md:flex-row">
                     <div className="flex flex-col gap-1">
                         <h3 className="mb-4 text-2xl font-bold">Conjugation Forms</h3>
                         {Object.keys(config.tenses).map(tense_key => {
@@ -233,7 +233,10 @@ function Home({
                         </div>
                     </div>
                 </div>
-            </form >
+                <footer className="mt-5">
+                    <p className="text-sm">This project is completely open-source! You can checkout the code <a className="underline hover:text-blue" target="_blank" href="https://github.com/brookjeynes/korean_conjugation_drill">here</a>.</p>
+                </footer>
+            </form>
         </div>
     );
 }
@@ -298,7 +301,7 @@ function Question({
             className="flex h-full flex-col items-center justify-between text-black"
             onSubmit={onSubmit}
         >
-            <div className="flex size-full flex-col items-center px-10 py-6 md:w-5/6 2xl:w-1/2">
+            <div className="flex size-full flex-col items-center px-5 py-6 md:w-5/6 2xl:w-1/2">
                 <div className="flex w-full items-center gap-4">
                     <FaXmark
                         onClick={onQuit}
@@ -322,7 +325,7 @@ function Question({
             </div>
 
             <div
-                className={"flex w-full items-center justify-center border-t-2 border-t-platinum px-10 py-6 " +
+                className={"flex w-full items-center justify-center border-t-2 border-t-platinum px-5 py-6 " +
                     `${question_state === QuestionState.undecided ? "bg-white" : question_state === QuestionState.correct ? "bg-lightgreen" : "bg-lightred"}`
                 }
             >
@@ -416,7 +419,7 @@ function Result({
     }
 
     return (
-        <div className="flex flex-col items-center gap-8 px-10 py-6">
+        <div className="flex flex-col items-center gap-8 px-5 py-6">
             <h1 className="text-center text-4xl font-bold">Results</h1>
             <p className="text-2xl">{correct_question_count} / {question_count}</p>
             <button
