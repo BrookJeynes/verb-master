@@ -62,7 +62,7 @@ function Home({
         setQuestionCount(question_count);
 
         const dbs = Object.values(config.datasets).filter(db => db.enabled).map(db => db.dataset);
-        const tenses = Object.keys(config.tenses).filter(tense => config.tenses[tense as Tense]) as Tense[];
+        const tenses = Object.keys(config.tenses).filter(tense => config.tenses[tense as Tense].enabled) as Tense[];
 
         try {
             setWords(getRandomConjugations(question_count, tenses, dbs));
