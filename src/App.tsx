@@ -25,7 +25,7 @@ function ProgressBar({ progress }: { progress: number }) {
     };
 
     return (
-        <div className="h-6 w-full rounded-md bg-lightgray shadow-sm">
+        <div className="h-6 w-full rounded-md border border-platinum bg-lightgray shadow-sm">
             <div className="h-full rounded-md bg-blue" style={fillerStyles} />
         </div>
     );

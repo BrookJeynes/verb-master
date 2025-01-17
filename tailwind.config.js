@@ -15,7 +15,7 @@ export default {
             "darkgreen": "#50BE19",
             "lightgreen": "#F6FDF2",
             "greenhover": "#58D11B",
-            "platinum": "#E6E6E6",
+            "platinum": "#D5D5D5",
             "lightgray": "#FAFAFA",
             "darkgray": "#4B4B4B",
             "black": "#000000",
