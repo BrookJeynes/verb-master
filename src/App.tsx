@@ -3,7 +3,9 @@ import { getRandomConjugations, isValidVerb } from "./conjugator";
 import { Config, default_config } from "./config";
 import { Tense, WordConjugation } from "./types";
 import { parseKimchiCsv } from "./csv";
-import { FaCircleCheck, FaCircleXmark, FaRectangleXmark, FaXmark } from "react-icons/fa6";
+import { FaCircleCheck, FaCircleXmark, FaMoon, FaRectangleXmark, FaSun, FaXmark } from "react-icons/fa6";
+
+type Theme = "light" | "dark";
 
 enum State {
     home,
@@ -23,7 +25,7 @@ function ProgressBar({ progress }: { progress: number }) {
     };
 
     return (
-        <div className="h-6 w-full rounded-md border border-platinum bg-lightgray shadow-sm">
+        <div className="h-6 w-full rounded-md bg-lightgray shadow-sm">
             <div className="h-full rounded-md bg-blue" style={fillerStyles} />
         </div>
     );
@@ -35,16 +37,20 @@ function Home({
     setQuestionCount,
     setConfig,
     setError,
+    switchTheme,
     config,
     error,
+    theme,
 }: {
     setState: React.Dispatch<React.SetStateAction<State>>,
     setWords: React.Dispatch<React.SetStateAction<WordConjugation[]>>,
     setQuestionCount: React.Dispatch<React.SetStateAction<number>>,
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     setError: React.Dispatch<React.SetStateAction<string | null>>,
+    switchTheme: () => void,
     config: Config,
     error: string | null,
+    theme: Theme,
 }) {
     const upload_file_ref = useRef(null);
 
@@ -81,13 +87,13 @@ function Home({
     }
 
     return (
-        <div className="flex w-full flex-col items-center">
+        <div className="flex w-full flex-col items-center dark:bg-offblack dark:text-whitehover">
             <form
-                className="flex w-full flex-col items-center px-5 py-4 text-black xl:w-4/6 2xl:w-2/3"
+                className="light:text-black flex w-full flex-col items-center px-5 py-4 xl:w-4/6 2xl:w-2/3"
                 onSubmit={start}
             >
                 {error && <div className="mb-10 w-2/3 rounded-md bg-redhover px-4 py-2 text-base">
-                    <p className="text-center font-bold text-white shadow-sm">Error: {error}</p>
+                    <p className="text-center font-bold text-whitehover shadow-sm">Error: {error}</p>
                 </div>}
 
                 <h1 className="mb-8 text-center text-4xl font-bold">Korean Conjugation Drill</h1>
@@ -97,25 +103,25 @@ function Home({
                     type="number"
                     defaultValue={10}
                     min={1}
-                    className="mt-4 rounded-md border border-platinum px-4 py-2"
+                    className="mt-4 rounded-md border-2 border-platinum px-4 py-2 text-black shadow"
                 />
 
                 <div className="mt-4 flex w-full items-center justify-center gap-6">
                     <input
                         type="submit"
                         value="START"
-                        className="mt-4 h-12 w-56 rounded-md bg-green px-4 py-2 font-bold text-white shadow-sm hover:cursor-pointer hover:bg-greenhover"
+                        className="mt-4 h-12 w-56 rounded-md bg-green px-4 py-2 font-bold text-whitehover shadow-sm hover:cursor-pointer hover:bg-greenhover"
                     />
                     <button
                         type="button"
                         onClick={reset}
-                        className="mt-4 h-12 w-56 rounded-md border border-platinum px-4 py-2 font-bold shadow-sm hover:bg-whitehover"
+                        className="mt-4 h-12 w-56 rounded-md border border-platinum px-4 py-2 font-bold shadow-sm hover:bg-whitehover dark:hover:bg-black"
                     >
                         RESET
                     </button>
                 </div>
 
-                <div className="mt-12 flex w-full flex-col justify-center gap-24 rounded-md bg-lightgray px-5 py-6  md:flex-row">
+                <div className="mt-12 flex w-full flex-col justify-center gap-24 rounded-md bg-lightgray px-5 py-6 dark:bg-jet md:flex-row">
                     <div className="flex flex-col gap-1">
                         <h3 className="mb-4 text-2xl font-bold">Conjugation Forms</h3>
                         {Object.keys(config.tenses).map(tense_key => {
@@ -141,7 +147,7 @@ function Home({
                                             }));
                                         }}
                                     />
-                                    <label htmlFor={tense_key}>{tense_key[0].toUpperCase()+tense_key.substring(1)} ({tense.example})</label>
+                                    <label htmlFor={tense_key}>{tense_key[0].toUpperCase() + tense_key.substring(1)} ({tense.example})</label>
                                 </div>
                             );
                         })}
@@ -236,7 +242,8 @@ function Home({
                         </div>
                     </div>
                 </div>
-                <footer className="mt-5">
+                <footer className="mt-5 flex gap-2">
+                    <button type="button" onClick={switchTheme}>{theme === "light" ? <FaSun className="text-yellow" /> : <FaMoon className="text-blue" />}</button>
                     <p className="text-sm">This project is completely open-source! You can checkout the code <a className="underline hover:text-blue" target="_blank" href="https://github.com/brookjeynes/korean_conjugation_drill">here</a>.</p>
                 </footer>
             </form>
@@ -309,7 +316,7 @@ function Question({
 
     return (
         <form
-            className="flex h-full flex-col items-center justify-between text-black"
+            className="flex h-full flex-col items-center justify-between text-black dark:bg-offblack dark:text-whitehover"
             onSubmit={onSubmit}
         >
             <div className="flex size-full flex-col items-center px-5 py-6 md:w-5/6 2xl:w-1/2">
@@ -317,7 +324,7 @@ function Question({
                     <FaXmark
                         onClick={onQuit}
                         size={28}
-                        className="text-darkgray hover:cursor-pointer hover:text-black"
+                        className="text-darkgray hover:cursor-pointer hover:text-black dark:text-whitehover dark:hover:text-white"
                     />
                     <ProgressBar progress={(current_word_idx / question_count) * 100} />
                 </div>
@@ -330,13 +337,13 @@ function Question({
                         id="user_input"
                         type="text"
                         ref={user_input_ref}
-                        className="w-full rounded-md border-2 border-solid border-platinum px-2 py-1 text-center shadow  md:w-5/6"
+                        className="w-full rounded-md border-2 border-solid border-platinum px-2 py-1 text-center shadow dark:text-black md:w-5/6"
                     />
                 </div>
             </div>
 
             <div
-                className={"flex w-full items-center justify-center border-t-2 border-t-platinum px-5 py-6 " +
+                className={"flex w-full items-center justify-center border-t-2 border-t-platinum px-5 py-6 dark:bg-jet " +
                     `${question_state === QuestionState.undecided ? "bg-white" : question_state === QuestionState.correct ? "bg-lightgreen" : "bg-lightred"}`
                 }
             >
@@ -346,7 +353,7 @@ function Question({
                             type="button"
                             onClick={onSkip}
                             disabled={question_state !== QuestionState.undecided}
-                            className="h-12 w-full rounded-md border border-platinum bg-white px-4 py-2 font-bold shadow-sm hover:cursor-pointer hover:bg-lightgray md:w-56"
+                            className="h-12 w-full rounded-md border border-platinum bg-white px-4 py-2 font-bold shadow-sm hover:cursor-pointer hover:bg-lightgray dark:bg-offblack dark:hover:bg-black md:w-56"
                         >
                             SKIP
                         </button>
@@ -405,7 +412,7 @@ function Question({
                     <input
                         type="submit"
                         value={question_state === QuestionState.undecided ? "CHECK" : "CONTINUE"}
-                        className={`mt-4 h-12 w-full rounded-md shadow-sm md:mt-0 ${question_state !== QuestionState.incorrect ? "bg-green hover:bg-greenhover" : "bg-red hover:bg-redhover"} px-4 py-2 font-bold text-white hover:cursor-pointer md:w-56`}
+                        className={`mt-4 h-12 w-full rounded-md shadow-sm md:mt-0 ${question_state !== QuestionState.incorrect ? "bg-green hover:bg-greenhover" : "bg-red hover:bg-redhover"} px-4 py-2 font-bold text-whitehover hover:cursor-pointer md:w-56`}
                     />
                 </div>
             </div>
@@ -430,12 +437,12 @@ function Result({
     }
 
     return (
-        <div className="flex flex-col items-center gap-8 px-5 py-6">
+        <div className="flex h-full flex-col items-center gap-8 px-5 py-6 dark:bg-offblack dark:text-whitehover">
             <h1 className="text-center text-4xl font-bold">Results</h1>
             <p className="text-2xl">{correct_question_count} / {question_count}</p>
             <button
                 onClick={onBack}
-                className="mt-4 h-12 w-56 rounded-md border border-platinum px-4 py-2 font-bold shadow-sm hover:bg-whitehover"
+                className="mt-4 h-12 w-56 rounded-md border border-platinum px-4 py-2 font-bold shadow-sm hover:bg-whitehover dark:hover:bg-black"
             >
                 Back to home
             </button>
@@ -450,10 +457,33 @@ function App() {
     const [correct_question_count, setCorrectQuestionCount] = useState<number>(0);
     const [error, setError] = useState<string | null>(null);
     const [words, setWords] = useState<WordConjugation[]>([]);
+    const [theme, setTheme] = useState<Theme>("light");
+
+    function switchTheme() {
+        if (localStorage.theme === "light" || !("theme" in localStorage)) {
+            setTheme("dark");
+            localStorage.theme = "dark";
+            document.documentElement.classList.add("dark");
+        } else {
+            setTheme("light");
+            localStorage.theme = "light";
+            document.documentElement.classList.remove("dark");
+        }
+    }
 
     function incrementCorrectQuestions() {
         setCorrectQuestionCount(correct_question_count + 1);
     }
+
+    useEffect(() => {
+        if (localStorage.theme === "light" || !("theme" in localStorage)) {
+            setTheme("light");
+            document.documentElement.classList.remove("dark");
+        } else {
+            setTheme("dark");
+            document.documentElement.classList.add("dark");
+        }
+    }, []);
 
     useEffect(() => {
         if (state === State.home) {
@@ -468,8 +498,10 @@ function App() {
                 setWords={setWords}
                 setQuestionCount={setQuestionCount}
                 setConfig={setConfig}
+                switchTheme={switchTheme}
                 setError={setError}
                 config={config}
+                theme={theme}
                 error={error}
             />;
         case State.question:
