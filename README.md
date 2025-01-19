@@ -18,7 +18,7 @@ from the dictionary form of a word.
 ## Installation
 1. Clone the repository.
     ```bash
-    git clone https://github.com/brookjeynes/korean_conjugation_drill.git
+    git clone https://github.com/BrookJeynes/maldongmu.git
     ```
 2. Navigate into the project directory using your terminal.
     ```bash
