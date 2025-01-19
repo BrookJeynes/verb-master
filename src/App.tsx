@@ -96,7 +96,10 @@ function Home({
                     <p className="text-center font-bold text-whitehover shadow-sm">Error: {error}</p>
                 </div>}
 
-                <h1 className="mb-8 text-center text-4xl font-bold">Korean Conjugation Drill</h1>
+                <div className="mb-8 mt-2 text-center">
+                    <h1 className="mb-2 text-6xl font-bold">말동무</h1>
+                    <h2 className="text-xl text-darkgray dark:text-whitehover">Your companion for Korean verbs</h2>
+                </div>
                 <label htmlFor="question_count">Number of questions:</label>
                 <input
                     id="question_count"
@@ -110,7 +113,7 @@ function Home({
                     <input
                         type="submit"
                         value="START"
-                        className="mt-4 h-12 w-56 rounded-md bg-green px-4 py-2 font-bold text-whitehover shadow-sm hover:cursor-pointer hover:bg-greenhover"
+                        className="mt-4 h-12 w-56 rounded-md bg-green px-4 py-2 font-bold shadow-sm hover:cursor-pointer hover:bg-greenhover"
                     />
                     <button
                         type="button"
@@ -123,7 +126,7 @@ function Home({
 
                 <div className="mt-12 flex w-full flex-col justify-center gap-24 rounded-md bg-lightgray px-5 py-6 dark:bg-jet md:flex-row">
                     <div className="flex flex-col gap-1">
-                        <h3 className="mb-4 text-2xl font-bold">Conjugation Forms</h3>
+                        <h2 className="mb-4 text-2xl font-bold">Conjugation Forms</h2>
                         {Object.keys(config.tenses).map(tense_key => {
                             const tense = config.tenses[tense_key as Tense];
                             return (
@@ -154,7 +157,7 @@ function Home({
                     </div>
 
                     <div className="flex flex-col gap-1">
-                        <h3 className="mb-4 text-2xl font-bold">Decks</h3>
+                        <h2 className="mb-4 text-2xl font-bold">Decks</h2>
                         {Object.keys(config.datasets).map(dataset_key => {
                             const dataset = config.datasets[dataset_key];
                             return (
@@ -243,8 +246,8 @@ function Home({
                     </div>
                 </div>
                 <footer className="mt-5 flex gap-2">
-                    <button type="button" onClick={switchTheme}>{theme === "light" ? <FaSun className="text-yellow" /> : <FaMoon className="text-blue" />}</button>
-                    <p className="text-sm">This project is completely open-source! You can checkout the code <a className="underline hover:text-blue" target="_blank" href="https://github.com/brookjeynes/korean_conjugation_drill">here</a>.</p>
+                    <button aria-label="Dark/Light mode switcher" type="button" onClick={switchTheme}>{theme === "light" ? <FaSun className="text-yellow" /> : <FaMoon className="text-blue" />}</button>
+                    <p className="text-sm">This project is completely open-source! You can checkout the code <a className="underline hover:text-blue" target="_blank" href="https://github.com/brookjeynes/korean_conjugation_drill">on GitHub here</a>.</p>
                 </footer>
             </form>
         </div>
@@ -412,7 +415,7 @@ function Question({
                     <input
                         type="submit"
                         value={question_state === QuestionState.undecided ? "CHECK" : "CONTINUE"}
-                        className={`mt-4 h-12 w-full rounded-md shadow-sm md:mt-0 ${question_state !== QuestionState.incorrect ? "bg-green hover:bg-greenhover" : "bg-red hover:bg-redhover"} px-4 py-2 font-bold text-whitehover hover:cursor-pointer md:w-56`}
+                        className={`mt-4 h-12 w-full rounded-md shadow-sm md:mt-0 ${question_state !== QuestionState.incorrect ? "bg-green hover:bg-greenhover" : "bg-red hover:bg-redhover"} px-4 py-2 font-bold hover:cursor-pointer md:w-56`}
                     />
                 </div>
             </div>

@@ -1,10 +1,14 @@
-# Korean Conjugation Drill
+<div align="center">
+    <img src="./public/logo.svg" width="150px" alt="Project Logo" />
+    <h1>말동무 - Your companion for Korean verbs</h1>
+</div>
 
-![Korean conjugation drill preview](./assets/preview.png)
+![말동무 preview](./assets/preview.png)
 
-A simple [website](https://korean-conjugation-drill.vercel.app/) designed to help you practice your Korean conjugations. 
-Practice different formality levels, tenses, and grammar forms. Understand how 
-each conjugation is formed from the dictionary form of a word.
+A simple [website](https://korean-conjugation-drill.vercel.app/) designed to 
+help you practice your Korean verb conjugations. Practice different formality 
+levels, tenses, and grammar forms. Understand how each conjugation is formed 
+from the dictionary form of a word.
 
 - [Installation](#installation)
 - [Integrations](#integrations)
@@ -33,8 +37,8 @@ each conjugation is formed from the dictionary form of a word.
 - Use your own words exported from [Kimchi Reader](https://kimchi-reader.app/).
 
 ## Custom datasets
-We currently only support the CSV file format that Kimchi Reader exports. You 
-can however mock this youself by creating a CSV file with the following structure.
+Custom datasets can be imported. To do so, create a CSV file with the following
+format.
 
 ```
 verb,0
@@ -42,7 +46,7 @@ verb,0
 ...
 ```
 
-_Note: Your imported CSV file should not contain any headers_
+_Note: The imported CSV file should not contain any headers._
 
 ## Contribution
 Contributions, issues, and feature requests are always welcome!
