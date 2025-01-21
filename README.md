@@ -1,9 +1,9 @@
 <div align="center">
-    <img src="./public/logo.svg" width="150px" alt="Project Logo" />
-    <h1>말동무 - Your companion for Korean verbs</h1>
+    <img src="./public/logo.svg" width="150px" alt="동사마스터 Logo" />
+    <h1>동사마스터 - Verb Master</h1>
 </div>
 
-![말동무 preview](./assets/preview.png)
+![동사마스터 preview](./assets/preview.png)
 
 A simple [website](https://korean-conjugation-drill.vercel.app/) designed to 
 help you practice your Korean verb conjugations. Practice different formality 
@@ -18,7 +18,7 @@ from the dictionary form of a word.
 ## Installation
 1. Clone the repository.
     ```bash
-    git clone https://github.com/BrookJeynes/maldongmu.git
+    git clone https://github.com/BrookJeynes/verb-master.git
     ```
 2. Navigate into the project directory using your terminal.
     ```bash

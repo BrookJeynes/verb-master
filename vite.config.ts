@@ -12,9 +12,9 @@ export default defineConfig({
             registerType: "autoUpdate",
             injectRegister: "inline",
             manifest: {
-                name: "말동무 - Your companion for Korean verbs",
-                short_name: "말동무",
-                description: "말동무 - Your companion for Korean verbs. A simple website designed to help you practice your Korean verb conjugations.",
+                name: "동사마스터 - Your companion for Korean verbs",
+                short_name: "동사마스터",
+                description: "동사마스터 - Your companion for Korean verbs. A simple website designed to help you practice your Korean verb conjugations.",
                 theme_color: "#ffffff",
                 "icons": [
                     {

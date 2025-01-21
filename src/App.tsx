@@ -97,7 +97,7 @@ function Home({
                 </div>}
 
                 <div className="mb-8 mt-2 text-center">
-                    <h1 className="mb-2 text-6xl font-bold">말동무</h1>
+                    <h1 className="mb-2 text-6xl font-bold">동사마스터 - Verb Master</h1>
                     <h2 className="text-xl text-darkgray dark:text-whitehover">Your companion for Korean verbs</h2>
                 </div>
                 <label htmlFor="question_count">Number of questions:</label>
@@ -247,7 +247,7 @@ function Home({
                 </div>
                 <footer className="mt-5 flex gap-2">
                     <button aria-label="Dark/Light mode switcher" type="button" onClick={switchTheme}>{theme === "light" ? <FaSun className="text-yellow" /> : <FaMoon className="text-blue" />}</button>
-                    <p className="text-sm">This project is completely open-source! You can checkout the code <a className="underline hover:text-blue" target="_blank" href="https://github.com/brookjeynes/korean_conjugation_drill">on GitHub here</a>.</p>
+                    <p className="text-sm">This project is completely open-source! You can checkout the code <a className="underline hover:text-blue" target="_blank" href="https://github.com/brookjeynes/verb-master">on GitHub here</a>.</p>
                 </footer>
             </form>
         </div>
