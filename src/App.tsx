@@ -97,7 +97,7 @@ function Home({
                 </div>}
 
                 <div className="mb-8 mt-2 text-center">
-                    <h1 className="mb-2 text-6xl font-bold">동사마스터 - Verb Master</h1>
+                    <h1 className="mb-2 text-6xl font-bold">동사마스터</h1>
                     <h2 className="text-xl text-darkgray dark:text-whitehover">Your companion for Korean verbs</h2>
                 </div>
                 <label htmlFor="question_count">Number of questions:</label>
