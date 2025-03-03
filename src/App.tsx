@@ -106,7 +106,7 @@ function Home({
                     type="number"
                     defaultValue={10}
                     min={1}
-                    className="mt-4 rounded-md border-2 border-platinum px-4 py-2 text-black shadow"
+                    className="w-full mt-4 rounded-md border-2 border-platinum px-4 py-2 text-black shadow"
                 />
 
                 <div className="mt-4 flex w-full items-center justify-center gap-6">
@@ -127,7 +127,7 @@ function Home({
                 <div className="mt-12 flex w-full flex-col justify-center gap-24 rounded-md bg-lightgray px-5 py-6 dark:bg-jet md:flex-row">
                     <div className="flex flex-col gap-1">
                         <h2 className="mb-4 text-2xl font-bold">Conjugation Forms</h2>
-                        {Object.keys(config.tenses).map(tense_key => {
+                        {Object.keys(config.tenses).p(tense_key => {
                             const tense = config.tenses[tense_key as Tense];
                             return (
                                 <div key={tense_key} className="flex items-center">
