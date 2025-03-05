@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getRandomConjugations, isValidVerb } from "./conjugator";
-import { Config, default_config } from "./config";
+import { Config, default_config, TenseOption } from "./config";
 import { Tense, WordConjugation } from "./types";
 import { parseKimchiCsv } from "./csv";
 import { FaCircleCheck, FaCircleXmark, FaMoon, FaRectangleXmark, FaSun, FaXmark } from "react-icons/fa6";
@@ -86,6 +86,11 @@ function Home({
         });
     }
 
+    // Save config to local storage
+    useEffect(() => {
+        localStorage.setItem("config", JSON.stringify(config));
+    }, [config]);
+
     return (
         <div className="flex w-full flex-col items-center dark:bg-offblack dark:text-whitehover">
             <form
@@ -106,7 +111,7 @@ function Home({
                     type="number"
                     defaultValue={10}
                     min={1}
-                    className="w-full max-w-[17rem] mt-4 rounded-md border-2 border-platinum px-4 py-2 text-black shadow"
+                    className="mt-4 w-full max-w-[17rem] rounded-md border-2 border-platinum px-4 py-2 text-black shadow"
                 />
 
                 <div className="mt-4 flex w-full items-center justify-center gap-6">
@@ -127,6 +132,27 @@ function Home({
                 <div className="mt-12 flex w-full flex-col justify-center gap-24 rounded-md bg-lightgray px-5 py-6 dark:bg-jet md:flex-row">
                     <div className="flex flex-col gap-1">
                         <h2 className="mb-4 text-2xl font-bold">Conjugation Forms</h2>
+                        <div className="flex items-center">
+                            <input
+                                id="toggle_all"
+                                type="checkbox"
+                                className="mr-2 size-5 cursor-pointer rounded border border-darkgray"
+                                defaultChecked={Object.values(config.tenses).every(t => t.enabled)}
+                                onChange={(e) => {
+                                    const checked = e.target.checked;
+                                    setConfig((prevConfig) => ({
+                                        ...prevConfig,
+                                        tenses: Object.fromEntries(
+                                            Object.entries(prevConfig.tenses).map(([key, value]): [string, TenseOption] => [
+                                                key,
+                                                { ...value, enabled: checked },
+                                            ])
+                                        ) as Config["tenses"],
+                                    }));
+                                }}
+                            />
+                            <label htmlFor="toggle_all">Toggle all</label>
+                        </div>
                         {Object.keys(config.tenses).map(tense_key => {
                             const tense = config.tenses[tense_key as Tense];
                             return (
@@ -454,8 +480,17 @@ function Result({
 }
 
 function App() {
+    function loadConfig(): Config {
+        const persistent_config = localStorage.getItem("config");
+        if (persistent_config) {
+            return JSON.parse(persistent_config);
+        }
+
+        return { ...default_config };
+    }
+
     const [state, setState] = useState<State>(State.home);
-    const [config, setConfig] = useState<Config>({ ...default_config });
+    const [config, setConfig] = useState<Config>(loadConfig());
     const [question_count, setQuestionCount] = useState<number>(10);
     const [correct_question_count, setCorrectQuestionCount] = useState<number>(0);
     const [error, setError] = useState<string | null>(null);
