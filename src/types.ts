@@ -9,6 +9,21 @@ export interface DbSet {
     isCustom: boolean;
 }
 
+export enum State {
+    home,
+    question,
+    result,
+};
+
+export enum QuestionState {
+    correct,
+    incorrect,
+    undecided,
+};
+
+
+export type Theme = "light" | "dark";
+
 export type WordConjugation = Conjugation & { word: string };
 
 export type Tense =
