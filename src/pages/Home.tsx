@@ -1,32 +1,55 @@
-import { useEffect, useRef } from "react";
-import { Config, default_config, TenseOption } from "./config";
-import { State, Tense, Theme, WordConjugation } from "./types";
-import { getRandomConjugations, isValidVerb } from "./conjugator";
+import { useEffect, useRef, useState } from "react";
+import { Config, default_config, loadConfig, TenseOption } from "../config";
+import { State, Tense, Theme, WordConjugation } from "../types";
+import { getRandomConjugations, isValidVerb } from "../conjugator";
 import { FaMoon, FaRectangleXmark, FaSun } from "react-icons/fa6";
-import { parseKimchiCsv } from "./csv";
+import { parseKimchiCsv } from "../csv";
 
 function Home({
     setState,
     setWords,
     setQuestionCount,
-    setConfig,
+    setCorrectQuestionCount,
     setError,
-    switchTheme,
-    config,
     error,
-    theme,
 }: {
     setState: React.Dispatch<React.SetStateAction<State>>,
     setWords: React.Dispatch<React.SetStateAction<WordConjugation[]>>,
     setQuestionCount: React.Dispatch<React.SetStateAction<number>>,
-    setConfig: React.Dispatch<React.SetStateAction<Config>>,
+    setCorrectQuestionCount: React.Dispatch<React.SetStateAction<number>>,
     setError: React.Dispatch<React.SetStateAction<string | null>>,
-    switchTheme: () => void,
-    config: Config,
     error: string | null,
-    theme: Theme,
 }) {
+    const [config, setConfig] = useState<Config>(loadConfig());
+    const [theme, setTheme] = useState<Theme>("light");
     const upload_file_ref = useRef(null);
+
+    function switchTheme() {
+        if (localStorage.theme === "light" || !("theme" in localStorage)) {
+            setTheme("dark");
+            localStorage.theme = "dark";
+            document.documentElement.classList.add("dark");
+        } else {
+            setTheme("light");
+            localStorage.theme = "light";
+            document.documentElement.classList.remove("dark");
+        }
+    }
+
+    useEffect(() => {
+        if (localStorage.theme === "light" || !("theme" in localStorage)) {
+            setTheme("light");
+            document.documentElement.classList.remove("dark");
+        } else {
+            setTheme("dark");
+            document.documentElement.classList.add("dark");
+        }
+    }, []);
+
+    useEffect(() => {
+        setCorrectQuestionCount(0);
+    }, []);
+
 
     function start(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

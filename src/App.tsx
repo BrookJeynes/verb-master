@@ -1,55 +1,15 @@
-import { useEffect, useState } from "react";
-import { Config, default_config } from "./config";
-import { State, Theme, WordConjugation } from "./types";
-import Result from "./Result";
-import Question from "./Question";
-import Home from "./Home";
-
-function loadConfig(): Config {
-    const persistent_config = localStorage.getItem("config");
-    if (persistent_config) {
-        return JSON.parse(persistent_config);
-    }
-
-    return { ...default_config };
-}
+import { useState } from "react";
+import { State, WordConjugation } from "./types";
+import Result from "./pages/Result";
+import Question from "./pages/Question";
+import Home from "./pages/Home";
 
 function App() {
     const [state, setState] = useState<State>(State.home);
-    const [config, setConfig] = useState<Config>(loadConfig());
     const [question_count, setQuestionCount] = useState<number>(10);
     const [correct_question_count, setCorrectQuestionCount] = useState<number>(0);
     const [error, setError] = useState<string | null>(null);
     const [words, setWords] = useState<WordConjugation[]>([]);
-    const [theme, setTheme] = useState<Theme>("light");
-
-    function switchTheme() {
-        if (localStorage.theme === "light" || !("theme" in localStorage)) {
-            setTheme("dark");
-            localStorage.theme = "dark";
-            document.documentElement.classList.add("dark");
-        } else {
-            setTheme("light");
-            localStorage.theme = "light";
-            document.documentElement.classList.remove("dark");
-        }
-    }
-
-    useEffect(() => {
-        if (localStorage.theme === "light" || !("theme" in localStorage)) {
-            setTheme("light");
-            document.documentElement.classList.remove("dark");
-        } else {
-            setTheme("dark");
-            document.documentElement.classList.add("dark");
-        }
-    }, []);
-
-    useEffect(() => {
-        if (state === State.home) {
-            setCorrectQuestionCount(0);
-        }
-    }, [state]);
 
     switch (state) {
         case State.home:
@@ -57,11 +17,8 @@ function App() {
                 setState={setState}
                 setWords={setWords}
                 setQuestionCount={setQuestionCount}
-                setConfig={setConfig}
-                switchTheme={switchTheme}
+                setCorrectQuestionCount={setCorrectQuestionCount}
                 setError={setError}
-                config={config}
-                theme={theme}
                 error={error}
             />;
         case State.question:

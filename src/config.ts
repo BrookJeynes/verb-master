@@ -1,6 +1,15 @@
 import kimchiFrequency from "./data/kimchi_frequency_verbs_15-01-25.json";
 import { DbSet, Tense } from "./types";
 
+export function loadConfig(): Config {
+    const persistent_config = localStorage.getItem("config");
+    if (persistent_config) {
+        return JSON.parse(persistent_config);
+    }
+
+    return { ...default_config };
+}
+
 export interface Config {
     tenses: { [key in Tense]: TenseOption };
     datasets: { [key: string]: DbSet };

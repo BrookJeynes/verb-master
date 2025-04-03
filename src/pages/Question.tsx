@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import { QuestionState, State, WordConjugation } from "./types";
+import { QuestionState, State, WordConjugation } from "../types";
 import { FaCircleCheck, FaCircleXmark, FaXmark } from "react-icons/fa6";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../components/ProgressBar";
 
 function Question({
     setState,
