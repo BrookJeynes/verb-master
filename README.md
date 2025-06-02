@@ -18,7 +18,7 @@ from the dictionary form of a word.
 ## Installation
 1. Clone the repository.
     ```bash
-    git clone --recursive-submodules https://github.com/BrookJeynes/verb-master.git
+    git clone --recurse-submodules https://github.com/BrookJeynes/verb-master.git
     ```
 2. Navigate into the project directory using your terminal.
     ```bash
